@@ -15,7 +15,8 @@ Los principales perfiles de familias de microprocesadores/microcontroladores de 
 1. Describa brevemente las diferencias entre las familias de procesadores Cortex M0, M3 y
 M4.
 
-El M0 no está preparado para correr un RTOS.
+Una de las principales diferencias entre estos tres tipos de procesadores es el largo de las instrucciones de su set de instrucciones. El M0 cuenta con instrucciones en su mayoría de 16 bits y algunas de 32 bits (instrucciones de salto). el M3 con instrucciones de 16, 32 y 
+El M0 es un procesador de bajo consumo, bajo costo pero no está preparado para correr un RTOS.
 
 2. ¿Por qué se dice que el set de instrucciones Thumb permite mayor densidad de código?
 Explique.
@@ -73,6 +74,21 @@ sistema operativo embebido.
 2. ¿Para qué se utiliza el sufijo ‘s’? Dé un ejemplo.
 3. ¿Qué utilidad tiene la implementación de instrucciones de aritmética saturada? Dé un
 ejemplo con operaciones con datos de 8 bits.
+
+La principal ventaja que trae la aritmética saturada es que, el resultado de una operación, al no poder hacer un "wrap around", es decir, dar la vuelta cuando hay un overflow, el valor resultante, aunque de todas formas será incorrecto, será numéricamente mas cercano al valor verdadero. Esto es ya que el valor se encuentra limitado entre un máximo y un mínimo.
+
+Otra ventaja de la aritmética saturada es que permite implementar algoritmos mas eficientes en el campo del procesamiento digital de señales. Por ejemplo, al ajustar el nivel de volumen de una señal de sonido alcanzar un valor de saturación causaría menos distorsión que en el caso que el valor desborde.
+
+Ejemplo de operación con aritmética saturada:
+
+Suponiendo que el intervalo válido de valores es de 0 a 255 (8 bits) y el resultado de todas las operaciones esta saturado.
+
+50 x (7 - 1) = 255
+
+50 x 6 - 50 x 1 = 205
+
+En este caso se observa que la propiedad de la distributividad falla en la aritmética saturada.
+
 4. Describa brevemente la interfaz entre assembler y C ¿Cómo se reciben los argumentos
 de las funciones? ¿Cómo se devuelve el resultado? ¿Qué registros deben guardarse en la
 pila antes de ser modificados?
