@@ -39,6 +39,17 @@ ejemplo.
 9. Describa brevemente las excepciones más prioritarias (reset, NMI, Hardfault).
 10. Describa las funciones principales de la pila. ¿Cómo resuelve la arquitectura el llamado
 a funciones y su retorno?
+
+Las principales funciones de la pila son:
+* Push: copia el valor de un registro en la posición apuntada por la pila. El puntero pasa a apuntar a la siguiente posición disponible (siguiente posición mas baja en el mapa de memoria).
+* Pop: copia el valor de la posición anterior a la posición apuntada por la pila en un registro. El puntero queda apuntando a la siguiente posición disponible en la pila.
+
+El stack pointer también tiene otras funciones como peek, swap, duplicate y rotate. En la primera se recupera el proximo valor del stack en un registro al igual que en la función pop, pero sin incrementar el puntero a la siguiente posición disponible.
+
+En la función swap se intercambian las posiciones de los ultimos dos valores de la pila.
+
+Cuando se llama a una función el procesador mete en la pila primero los registros que se encontraba utilizando y luego los parámetros que la función recibe por argumento. Cuando se comienza a ejecutar la función, esta primero recupera del stack los valores de los argumentos y antes de retornar pone en el stack los valores de retorno de la función. Cuando el programa vuelve de la función saca del stack los valores retornados y luego los valores de los registros, de forma que estos se encuentren en el mismo estado que antes del llamado a la función.
+
 11. Describa la secuencia de reset del microprocesador.
 12. ¿Qué entiende por “core peripherals”? ¿Qué diferencia existe entre estos y el resto de
 los periféricos?
