@@ -34,7 +34,7 @@ Las instrucciones de operaciones de la ALU tienen como operandos solo registros 
 como se conmuta de uno al otro. Describa un ejemplo en el que se pasa del modo
 privilegiado a no priviligiado y nuevamente a privilegiado.
 7. ¿Qué se entiende por modelo de registros ortogonal? Dé un ejemplo.
-8. ¿Qué ventajas presenta el uso de intrucciones de ejecución condicional (IT)? Dé un
+8. ¿Qué ventajas presenta el uso de instrucciones de ejecución condicional (IT)? Dé un
 ejemplo.
 9. Describa brevemente las excepciones más prioritarias (reset, NMI, Hardfault).
 10. Describa las funciones principales de la pila. ¿Cómo resuelve la arquitectura el llamado
@@ -42,8 +42,16 @@ a funciones y su retorno?
 11. Describa la secuencia de reset del microprocesador.
 12. ¿Qué entiende por “core peripherals”? ¿Qué diferencia existe entre estos y el resto de
 los periféricos?
+
+Los core peripherals son los periféricos ya definidos e implementados por el fabricante (ARM). A diferencia del resto de los periféricos, estos se encuentran físicamente en el nucleo (core) del procesador ya que es necesario que sean de baja latencia.
+
 13. ¿Cómo se implementan las prioridades de las interrupciones? Dé un ejemplo.
 14. ¿Qué es el CMSIS? ¿Qué función cumple? ¿Quién lo provee? ¿Qué ventajas aporta?
+
+El CMSIS es una interfaz de software común a todos los microprocesadores Cortex que se encuentra implementada en C. Se trata basicamente de una libreria escrita en C para que el programador pueda facilmente acceder y usar los core peripherals del microprocesador. Se trata de una capa de software que se encuentra entre la capa de middleware y el hardware.
+
+Consta de una parte ya definida por ARM y otra dependiente del fabricante del chip.
+
 15. Cuando ocurre una interrupción, asumiendo que está habilitada ¿Cómo opera el
 microprocesador para atender a la subrutina correspondiente? Explique con un ejemplo.
 16. ¿Cómo cambia la operación de stacking al utilizar la unidad de punto flotante?
