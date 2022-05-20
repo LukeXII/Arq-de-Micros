@@ -36,6 +36,26 @@ Las de acceso a memoria cargan datos desde la memoria a los registros internos d
 Las instrucciones de operaciones de la ALU tienen como operandos solo registros del procesador. Por lo tanto, para ejecutar operaciones entre posiciones de memoria primero se deben cargar estas en los registros del procesador, no existen instrucciones que ejecuten operaciones de la ALU directamente en memoria.
 
 4. ¿Cómo es el mapa de memoria de la familia?
+
+El mapa de memoria de la familia Cortex-M está dividido en seis regiones, estando cada una asignada a distintas funciones:
+
+* **System**: periféricos privados y componentes de control interno y debug del procesador como el controlador de interrupciones anidado (NVIC)
+* **External Device**: utilizado para periféricos externos
+* **External RAM**: utilizado para memoria RAM externa
+* **Peripherals**: periféricos
+* **SRAM**: datos del programa
+* **Code**: código del programa y tabla de vectores de excepción
+
+A continuación se puede ver el diagrama del mapa de memoria, junto con las direcciones donde comienza y termina cada región.
+
+<p align="center">
+  <img height=450 src=memorymap.png>
+</p>
+
+Esta arquitectura tiene gran flexibilidad, es decir, permite que las regiones de memoria sean usadas para otros propósitos. Por ejemplo, los programas pueden ser ejecutados desde la región 'Code' asi como también desde la región SRAM.
+
+Como este mapa es igual para toda la familia Cortex-M resulta sencillo portar software entre dispositivos de la misma familia. Además favorece a los fabricantes de dispositivos de programación y debug.
+
 5. ¿Qué ventajas presenta el uso de los “shadowed pointers” del PSP y el MSP?
 6. Describa los diferentes modos de privilegio y operación del Cortex M, sus relaciones y
 como se conmuta de uno al otro. Describa un ejemplo en el que se pasa del modo
