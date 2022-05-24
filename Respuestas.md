@@ -57,6 +57,13 @@ Esta arquitectura tiene gran flexibilidad, es decir, permite que las regiones de
 Como este mapa es igual para toda la familia Cortex-M resulta sencillo portar software entre dispositivos de la misma familia. Además favorece a los fabricantes de dispositivos de programación y debug.
 
 5. ¿Qué ventajas presenta el uso de los “shadowed pointers” del PSP y el MSP?
+
+El hecho de contar con un stack pointer para el Kernel del OS (MSP) y otro para las tareas de la aplicación (PSP) trae ciertos beneficios:
+* Si alguna tarea de la aplicación encuentra algún problema que conlleve a invalidar su propio stack, el stack del Kernel (MSP) y el de las otras tareas probablemente se mantenga intacto, mejorando asi la confiabilidad general del sistema.
+* El espacio de stack para cada tarea debe cubrir solamente el máximo uso del stack mas un nivel de stack frame. El espacio de stack necesario para las ISR y los handlers de las interrupciones anidadas es alocado solamente en el stack principal (apuntado por el MSP).
+* Facilita la creación de un OS eficiente para los procesadores Cortex-M.
+* Un OS puede utilizar la Memory Protection Unit (MPU) para definir la región del stack que cada tarea puede usar. Si en alguna tarea se da un stack overflow la MPU puede disparar una excepción MemManage y prevenir que la tarea sobreescriba regiones de memoria fuera del espacio asignado para su stack.
+
 6. Describa los diferentes modos de privilegio y operación del Cortex M, sus relaciones y
 como se conmuta de uno al otro. Describa un ejemplo en el que se pasa del modo
 privilegiado a no priviligiado y nuevamente a privilegiado.
