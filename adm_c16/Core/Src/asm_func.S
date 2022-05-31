@@ -5,7 +5,10 @@
 @ Simbolos exportados
 .global asm_svc
 .global asm_sum
-
+.global asm_zeros
+.global asm_productoEscalar32
+.global asm_productoEscalar16
+.global asm_productoEscalar12
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
@@ -42,4 +45,97 @@
         @ mov pc,lr
         @ bx lr
         @ push {lr} ... pop {pc}
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@   void asm_zeros (uint32_t *vector, uint32_t longitud);
+@
+@ Parametros recibidos:
+@   r0: *vector
+@   r1: longitud
+@
+.thumb_func
+    asm_zeros:
+        @ Registros usados
+        @   r2: valor cero
+        mov r2, 0           @ constante cero
+    .asm_zeros_loop:
+        str r2, [r0], 4     @ sizeof(uint32_t) == 4, *vector++ = r2
+        subs r1, 1          @ --longitud
+        bne	.asm_zeros_loop
+        bx lr
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@ void productoEscalar32(uint32_t * vectorIn, uint32_t * vectorOut, uint32_t longitud, uint32_t escalar);
+@
+@ Parametros recibidos:
+@   r0: * vectorIn
+@   r1: * vectorOut
+@	r2: longitud
+@	r3: escalar
+@
+@ Valor de retorno:
+@   Ninguno
+@
+.thumb_func
+    asm_productoEscalar32:
+    .loop1:
+    	ldr	r5, [r0], 4
+    	mul r6, r5, r3
+		str r6, [r1], 4
+    	subs r2, 1          @ --longitud
+        bne	.loop1
+        bx lr
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@ void asm_productoEscalar16(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar);
+@
+@ Parametros recibidos:
+@   r0: * vectorIn
+@   r1: * vectorOut
+@	r2: longitud
+@	r3: escalar
+@
+@ Valor de retorno:
+@   Ninguno
+@
+.thumb_func
+    asm_productoEscalar16:
+    .loop2:
+    	ldrh r5, [r0], 2
+    	mul r6, r5, r3
+		strh r6, [r1], 2
+    	subs r2, 1          @ --longitud
+        bne	.loop2
+        bx lr
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@ void asm_productoEscalar12(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar);
+@
+@ Parametros recibidos:
+@   r0: * vectorIn
+@   r1: * vectorOut
+@	r2: longitud
+@	r3: escalar
+@
+@ Valor de retorno:
+@   Ninguno
+@
+.thumb_func
+    asm_productoEscalar12:
+    .loop3:
+    	ldrh r5, [r0], 2
+    	mul r6, r5, r3
+    	usat r6, #12, r6
+		strh r6, [r1], 2
+    	subs r2, 1          @ --longitud
+        bne	.loop3
+        bx lr
 
