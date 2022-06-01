@@ -9,6 +9,7 @@
 .global asm_productoEscalar32
 .global asm_productoEscalar16
 .global asm_productoEscalar12
+.global asm_invertir
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
@@ -82,12 +83,16 @@
 @
 .thumb_func
     asm_productoEscalar32:
+    	push {r5}
+    	push {r6}
     .loop1:
     	ldr	r5, [r0], 4
     	mul r6, r5, r3
 		str r6, [r1], 4
     	subs r2, 1          @ --longitud
         bne	.loop1
+        pop {r6}
+    	pop {r5}
         bx lr
 
 
@@ -106,12 +111,16 @@
 @
 .thumb_func
     asm_productoEscalar16:
+    	push {r5}
+    	push {r6}
     .loop2:
     	ldrh r5, [r0], 2
     	mul r6, r5, r3
 		strh r6, [r1], 2
     	subs r2, 1          @ --longitud
         bne	.loop2
+        pop {r6}
+    	pop {r5}
         bx lr
 
 
@@ -130,6 +139,8 @@
 @
 .thumb_func
     asm_productoEscalar12:
+    	push {r5}
+    	push {r6}
     .loop3:
     	ldrh r5, [r0], 2
     	mul r6, r5, r3
@@ -137,5 +148,39 @@
 		strh r6, [r1], 2
     	subs r2, 1          @ --longitud
         bne	.loop3
+        pop {r6}
+    	pop {r5}
         bx lr
 
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@ void asm_invertir (uint16_t * vector, uint32_t longitud);
+@
+@ Parametros recibidos:
+@   r0: * vector
+@   r1: longitud
+@
+@ Valor de retorno:
+@   Ninguno
+@
+.thumb_func
+    asm_invertir:
+        push {r4}
+        subs r1, 1
+        beq .skip1
+    	mov r3, 2
+    	mul r4, r1, r3
+    	add r4, r0
+    	add r1, 1
+    	udiv r1, r1, r3
+    .loop4:
+    	ldrh r2, [r0]
+    	ldrh r3, [r4]
+		strh r3, [r0], 2
+		strh r2, [r4], -2
+    	subs r1, 1
+        bne	.loop4
+	.skip1:
+        pop {r4}
+        bx lr

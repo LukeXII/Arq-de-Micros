@@ -132,7 +132,7 @@ static void PrivilegiosSVC (void)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	uint16_t myVector[] = {2, 300, 8, 600};
+	uint16_t myVector[] = {2, 10, 5, 1, 3};
 	uint16_t vectorOut[4];
   /* USER CODE END 1 */
 
@@ -160,7 +160,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   PrivilegiosSVC ();
 
-  asm_productoEscalar12(myVector, vectorOut, 4, 20);
+  asm_invertir (myVector, 5);
   /* USER CODE END 2 */
 
   /* Infinite loop */
