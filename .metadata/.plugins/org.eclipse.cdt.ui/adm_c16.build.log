@@ -1,24 +1,10 @@
-05:15:05 **** Incremental Build of configuration Debug for project adm_c16 ****
+02:37:09 **** Incremental Build of configuration Debug for project adm_c16 ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:136:11: warning: unused variable 'vectorOut' [-Wunused-variable]
-  136 |  uint16_t vectorOut[4];
-      |           ^~~~~~~~~
-arm-none-eabi-gcc -o "adm_c16.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Lucas\Desktop\Repo CESE\Arq-de-Micros\adm_c16\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="adm_c16.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: adm_c16.elf
- 
 arm-none-eabi-size   adm_c16.elf 
-arm-none-eabi-objdump -h -S  adm_c16.elf  > "adm_c16.list"
-arm-none-eabi-objcopy  -O binary  adm_c16.elf  "adm_c16.bin"
    text	   data	    bss	    dec	    hex	filename
-  12796	     20	   3492	  16308	   3fb4	adm_c16.elf
+  12864	     20	   3492	  16376	   3ff8	adm_c16.elf
 Finished building: default.size.stdout
  
-Finished building: adm_c16.bin
- 
-Finished building: adm_c16.list
- 
 
-05:15:06 Build Finished. 0 errors, 1 warnings. (took 547ms)
+02:37:09 Build Finished. 0 errors, 0 warnings. (took 223ms)
 

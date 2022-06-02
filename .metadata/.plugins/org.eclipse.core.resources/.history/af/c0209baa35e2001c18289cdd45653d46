@@ -179,7 +179,6 @@
 		ldr r5, [r0], 4
 		cmp r2, r5
 		bgt .skip2
-		mov r2, r5
 		mov r3, r4
 	.skip2:
     	subs r1, 1

@@ -132,7 +132,7 @@ static void PrivilegiosSVC (void)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	int32_t myVector[] = {-523454, -2, -3, -199, -234, -41};
+	int32_t myVector[] = {-2, 1020, -523454, 431, 3, 0, -234, -1, 8, 234567};
 	int32_t resultado;
   /* USER CODE END 1 */
 
@@ -160,7 +160,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   PrivilegiosSVC ();
 
-  resultado = asm_max (myVector, 6);
+  resultado = asm_max (myVector, 10);
 
   /* USER CODE END 2 */
 
