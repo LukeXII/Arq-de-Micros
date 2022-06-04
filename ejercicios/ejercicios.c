@@ -7,21 +7,26 @@ void zeros(uint32_t * vector, uint32_t longitud);
 void productoEscalar32(uint32_t * vectorIn, uint32_t * vectorOut, uint32_t longitud, uint32_t escalar);
 void productoEscalar16(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar);
 void productoEscalar12(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar);
+void invertir (uint16_t * vector, uint32_t longitud);
+int32_t max (int32_t * vectorIn, uint32_t longitud);
 
 int main()
 {
-    uint16_t vec1[] = {0, 4 , 1, 2500, 3};
-    uint16_t vec2[5];
+    int32_t vec1[] = {2500, -10, 0 , 1, 3, -43};
+    uint32_t longitud = 6;
+    int32_t res;
 
-    for(unsigned int i = 0;i < 5;i++)
+    for(unsigned int i = 0;i < longitud;i++)
         printf("%d ", vec1[i]);
     
     printf("\n");
 
-    productoEscalar12(vec1, vec2, 5, 4);
+    res = max(vec1, longitud);
 
-    for(unsigned int i = 0;i < 5;i++)
-        printf("%d ", vec2[i]);
+    printf("%d ", res);
+
+    //for(unsigned int i = 0;i < longitud;i++)
+     //   printf("%d ", vec1[i]);
 
     return 0;
 }
@@ -66,4 +71,39 @@ void productoEscalar12(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longi
             vectorOut[longitud] = aux;
     }
 
+}
+
+void invertir (uint16_t * vector, uint32_t longitud)
+{
+	uint16_t aux;
+	uint32_t index1 = 0, index2 = longitud - 1, loops;
+
+	loops = longitud/2;
+	while(loops--)
+	{
+		aux = vector[index2];
+		vector[index2] = vector[index1];
+		vector[index1] = aux;
+		index1++;
+		index2--;
+	}
+}
+
+int32_t max (int32_t * vectorIn, uint32_t longitud)
+{
+    int32_t maxValue = vectorIn[longitud-1];
+    int32_t maxIndex = longitud;
+
+    longitud--;
+    while(longitud--)
+    {
+        if(vectorIn[longitud] >= maxValue)
+        {
+            maxValue = vectorIn[longitud];
+            maxIndex = longitud + 1;
+        }
+
+    }
+
+    return maxIndex;
 }
