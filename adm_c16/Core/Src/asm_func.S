@@ -11,6 +11,7 @@
 .global asm_productoEscalar12
 .global asm_invertir
 .global asm_max
+.global asm_filtroVentana10
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
@@ -222,3 +223,62 @@
 	.skip1:
         pop {r4}
         bx lr
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@ void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn)
+@
+@ Parametros recibidos:
+@   r0: * vector
+@   r1: * vector
+@	r2: longitud
+@
+@ Valor de retorno:
+@   Ninguno
+@
+.thumb_func
+	asm_filtroVentana10:
+        push {r4}
+        push {r5}
+        push {r6}
+        push {r7}
+        push {r8}
+
+		mov r3, 0			// index
+
+.fv_loop2:
+		mov r4, 0			// avg
+		mov r5, 0			// i
+
+.fv_loop1:
+		add r6, r3, r5
+		cmp r6, r2
+		blt .fv_skip2
+		udiv r7, r6, r2
+		mul r7, r7, r2
+		sub r6, r6, r7
+
+.fv_skip2:
+		mov r8, 2
+		mul r6, r6, r8
+		add r6, r0, r6
+		ldrh r8, [r6]
+		add r4, r4, r8
+		add r5, 1
+		cmp r5, 10
+		blt .fv_loop1
+
+		mov r8, 10
+		udiv r8, r4, r8
+		strh r8, [r1], 2
+		add r3, 1
+		cmp r3, r2
+		blt .fv_loop2
+
+		pop {r8}
+        pop {r7}
+		pop {r6}
+        pop {r5}
+        pop {r4}
+		bx lr

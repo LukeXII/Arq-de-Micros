@@ -83,3 +83,23 @@ int32_t max (int32_t * vectorIn, uint32_t longitud)
 
     return maxIndex;
 }
+
+void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn)
+{
+	uint32_t i, index = 0, aux;
+	uint16_t avg = 0;
+
+	while(index < longitudVectorIn)
+	{
+		for(i = 0;i < 10;i++)
+		{
+			aux = (index + i) >= longitudVectorIn ? (index + i) % longitudVectorIn : (index + i);
+			avg += vectorIn[aux];
+		}
+
+		vectorOut[index] = avg/10;
+
+		avg = 0;
+		index++;
+	}
+}

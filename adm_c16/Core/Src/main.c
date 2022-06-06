@@ -132,8 +132,9 @@ static void PrivilegiosSVC (void)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	int32_t myVector[] = {-523454, -2, -3, -199, -234, -41};
-	int32_t resultado;
+	uint16_t myVector[] = {1, 2, 3, 3, 5, 0, 7, 2, 10, 11, 0, 1, 14, 5}, vecOut[15];
+//	uint16_t myVector[] = {1, 2, 3}, vecOut[15];
+	uint16_t longitud = 14;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -160,7 +161,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   PrivilegiosSVC ();
 
-  resultado = asm_max (myVector, 6);
+  asm_filtroVentana10(myVector, vecOut, longitud);
 
   /* USER CODE END 2 */
 
