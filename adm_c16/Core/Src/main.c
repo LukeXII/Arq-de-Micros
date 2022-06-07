@@ -132,9 +132,10 @@ static void PrivilegiosSVC (void)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	uint16_t myVector[] = {1, 2, 3, 3, 5, 0, 7, 2, 10, 11, 0, 1, 14, 5}, vecOut[15];
+	int32_t myVector[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+	int32_t vecOut[15];
 //	uint16_t myVector[] = {1, 2, 3}, vecOut[15];
-	uint16_t longitud = 14;
+	uint32_t longitud = 15;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -161,7 +162,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   PrivilegiosSVC ();
 
-  asm_filtroVentana10(myVector, vecOut, longitud);
+  asm_downsampleM(myVector, vecOut, longitud, 4);
 
   /* USER CODE END 2 */
 

@@ -10,18 +10,21 @@ void productoEscalar12(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longi
 void invertir (uint16_t * vector, uint32_t longitud);
 int32_t max (int32_t * vectorIn, uint32_t longitud);
 void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn);
+void pack32to16 (int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud);
+void downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N);
 
 int main()
 {
-    int16_t vec1[] = {1, 2, 3, 3, 5, 0, 7, 2, 10, 11, 0, 1, 14, 5}, vec2[15];
-    uint32_t longitud = 14;
+    int32_t vec1[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+    int32_t vec2[15];
+    uint32_t longitud = 15;
 
     for(unsigned int i = 0;i < longitud;i++)
         printf("%d ", vec1[i]);
     
     printf("\n");
 
-    filtroVentana10(vec1, vec2, longitud);
+    downsampleM(vec1, vec2, longitud, 4);
 
     //printf("%d ", res);
 
@@ -29,6 +32,31 @@ int main()
         printf("%d ", vec2[i]);
 
     return 0;
+}
+
+void downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N)
+{
+    uint32_t index = 1, outIndex = 0, inIndex = 0;
+
+    while(longitud--)
+    {
+        if(index < N)
+        {
+            vectorOut[outIndex] = vectorIn[inIndex];
+            outIndex++;
+        }
+        else
+            index = 0;
+
+        inIndex++;
+        index++;
+    }
+}
+
+void pack32to16 (int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud)
+{
+    while(longitud--)
+        vectorOut[longitud] = vectorIn[longitud] >> 16;
 }
 
 void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn)
