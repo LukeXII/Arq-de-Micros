@@ -132,10 +132,10 @@ static void PrivilegiosSVC (void)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	int32_t myVector[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-	int32_t vecOut[15];
+	uint16_t myVector[] = {13341, 232, 4095, 4096, 1253};
+	uint16_t vecOut[15];
 //	uint16_t myVector[] = {1, 2, 3}, vecOut[15];
-	uint32_t longitud = 15;
+	uint32_t longitud = 5;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -162,7 +162,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   PrivilegiosSVC ();
 
-  asm_downsampleM(myVector, vecOut, longitud, 4);
+  asm_productoEscalar12_sinUSAT(myVector, vecOut, longitud, 1);
 
   /* USER CODE END 2 */
 

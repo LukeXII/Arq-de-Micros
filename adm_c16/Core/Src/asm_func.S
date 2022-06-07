@@ -9,6 +9,7 @@
 .global asm_productoEscalar32
 .global asm_productoEscalar16
 .global asm_productoEscalar12
+.global asm_productoEscalar12_sinUSAT
 .global asm_invertir
 .global asm_max
 .global asm_filtroVentana10
@@ -130,6 +131,39 @@
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
+@ void asm_productoEscalar12_sinUSAT(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar);
+@
+@ Parametros recibidos:
+@   r0: * vectorIn
+@   r1: * vectorOut
+@	r2: longitud
+@	r3: escalar
+@
+@ Valor de retorno:
+@   Ninguno
+@
+.thumb_func
+    asm_productoEscalar12_sinUSAT:
+    	push {r5}
+    	push {r6}
+    .loop3:
+    	ldrh r5, [r0], 2
+    	mul r6, r5, r3
+    	mov r5, 4095
+    	cmp r6, r5
+    	bls .pe12_skip1
+    	mov r6, 4095
+    .pe12_skip1:
+		strh r6, [r1], 2
+    	subs r2, 1          @ --longitud
+        bne	.loop3
+        pop {r6}
+    	pop {r5}
+        bx lr
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
 @ void asm_productoEscalar12(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar);
 @
 @ Parametros recibidos:
@@ -145,13 +179,13 @@
     asm_productoEscalar12:
     	push {r5}
     	push {r6}
-    .loop3:
+    .pe12_loop3:
     	ldrh r5, [r0], 2
     	mul r6, r5, r3
     	usat r6, #12, r6
 		strh r6, [r1], 2
     	subs r2, 1          @ --longitud
-        bne	.loop3
+        bne	.pe12_loop3
         pop {r6}
     	pop {r5}
         bx lr
