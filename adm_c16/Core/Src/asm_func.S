@@ -242,6 +242,7 @@
 .thumb_func
     asm_invertir:
         push {r4}
+
         subs r1, 1
         beq .skip1
     	mov r3, 2
@@ -256,6 +257,7 @@
 		strh r2, [r4], -2
     	subs r1, 1
         bne	.loop4
+
 	.skip1:
         pop {r4}
         bx lr

@@ -12,26 +12,42 @@ int32_t max (int32_t * vectorIn, uint32_t longitud);
 void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn);
 void pack32to16 (int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud);
 void downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N);
+void corr(int16_t *vectorX, int16_t * vectorY, int16_t * vectorCorr, uint32_t longitud);
 
 int main()
 {
-    int32_t vec1[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-    int32_t vec2[15];
-    uint32_t longitud = 15;
+    int16_t vec1[] = {1, 2, 3, 4, 5, 6, 7};
+    int16_t vec2[] = {0, 6, 2, 1, 1, 4, 8}, vec3[7];
+    uint32_t longitud = 7;
 
     for(unsigned int i = 0;i < longitud;i++)
         printf("%d ", vec1[i]);
     
     printf("\n");
 
-    downsampleM(vec1, vec2, longitud, 4);
+    corr(vec1, vec1, vec3, longitud);
 
     //printf("%d ", res);
 
     for(unsigned int i = 0;i < longitud;i++)
-        printf("%d ", vec2[i]);
+        printf("%d ", vec3[i]);
 
     return 0;
+}
+
+void corr(int16_t * vectorX, int16_t * vectorY, int16_t * vectorCorr, uint32_t longitud)
+{
+    uint32_t i, largo = longitud;
+
+    while(longitud--)
+    {
+        vectorCorr[longitud] = 0;
+
+        for(i = 0;i < largo;i++)
+            vectorCorr[longitud] += vectorX[largo]*vectorY[largo - longitud];
+
+    }
+
 }
 
 void downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N)
