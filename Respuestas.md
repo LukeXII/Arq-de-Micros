@@ -83,6 +83,12 @@ El stack pointer también tiene otras funciones como peek, swap, duplicate y rot
 En la función swap se intercambian las posiciones de los ultimos dos valores de la pila.
 
 11. Describa la secuencia de reset del microprocesador.
+
+Luego de que se detecte cualquiera de los tres tipos de reset del microcontrolador (power on reset, system reset o processor reset) y antes de que el procesador comience a ejecutar el programa en memoria, el proceso de reset se da de la siguiente forma:
+* Se lee la primera posición del mapa de memoria, correspondiente a la dirección inicial del MSP.
+* Se lee la segunda posición del mapa de memoria, correspondiente al vector de reset (dirección de comienzo del reset handler).
+* El procesador guarda las dos direcciones leídas en el MSP y el PC respectivamente.
+
 12. ¿Qué entiende por “core peripherals”? ¿Qué diferencia existe entre estos y el resto de
 los periféricos?
 
@@ -159,6 +165,6 @@ Cuando se llama a una función el procesador guarda en el stack primero todos lo
 5. ¿Qué es una instrucción SIMD? ¿En qué se aplican y que ventajas reporta su uso? Dé un
 ejemplo.
 
-Una instrucción SIMD (Single Instruction Multiple Data) realiza una misma operación sobre mas de un dato. 
+Una instrucción SIMD (Single Instruction Multiple Data) realiza una misma operación sobre mas de un dato de forma paralela. El largo de estos datos pueden ser de 8 o 16 bits.
 
-Es una técnica empleada para llevar a cabo paralelismo a nivel de datos, es decir, operar sobre mas de un dato en una misma instrucción.
+Es una técnica empleada para llevar a cabo paralelismo a nivel de datos, es decir, aplicar sobre mas de un dato una misma instrucción. Esto es particularmente ventajoso ya que se realizan varias operaciones en el tiempo de ejecución que toma una sola instrucción.
