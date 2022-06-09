@@ -399,7 +399,6 @@
 @
 .thumb_func
 	asm_corr:
-		push {r4}
 		push {r5}
 		push {r6}
 		push {r7}
@@ -407,37 +406,35 @@
 		push {r9}
 		push {r10}
 		push {r11}
-		push {r12}
 
+		mov r11, 0
 
-		mov r4, r3		// r4 - mantiene longitud
-		mov r12, 2
 	.corr_loop1:
 
+		mov r8, 2
+		mul r8, r8, r11
+		add r8, r8, r0
+
 		mov r5, 0		// r5 - acumula el valor
-		mov r8, r0		// r8 - dir vectorX
-		mov r9, r1		// r9 - dir vectorY
-		mov r7, 0		// largo
+		mov r9, r1		// r9 - dir vectorY[0]
+		mov r7, r3
+
 	.corr_loop2:
 
-		ldrh r6, [r8], 2
-		sub r11, r7, r4
-		mul r11, r11, r12
-		add r9, r11
-		ldrh r10, [r9]
+		ldrh r6, [r9], 2
+		ldrh r10, [r8], 2
 		mul r6, r6, r10
 		add r5, r6
 
-		adds r7, 1
-		cmp r7, r4
+		subs r7, 1
 		bne .corr_loop2
 
 		strh r5, [r2], 2
 
 		subs r3, 1
+		add r11, 1
 		bne .corr_loop1
 
-		pop {r12}
 		pop {r11}
 		pop {r10}
 		pop {r9}
@@ -445,7 +442,6 @@
 		pop {r7}
 		pop {r6}
 		pop {r5}
-		pop {r4}
 		bx lr
 
 
