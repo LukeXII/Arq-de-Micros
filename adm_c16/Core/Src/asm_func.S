@@ -15,6 +15,8 @@
 .global asm_filtroVentana10
 .global asm_pack32to16
 .global asm_downsampleM
+.global asm_corr
+.global asm_corr_conSIMD
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
@@ -376,6 +378,99 @@
 		add r4, 1
 		subs r2, 1
 		bne .ds_loop1
+
+		pop {r5}
+		pop {r4}
+		bx lr
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@ void corr(int16_t *vectorX, int16_t * vectorY, int16_t * vectorCorr, uint32_t longitud);
+@
+@ Parametros recibidos:
+@   r0: * vectorX
+@   r1: * vectorY
+@	r2: * vectorCorr
+@	r3: longitud
+@
+@ Valor de retorno:
+@   Ninguno
+@
+.thumb_func
+	asm_corr:
+		push {r4}
+		push {r5}
+		push {r6}
+		push {r7}
+		push {r8}
+		push {r9}
+		push {r10}
+		push {r11}
+		push {r12}
+
+
+		mov r4, r3		// r4 - mantiene longitud
+		mov r12, 2
+	.corr_loop1:
+
+		mov r5, 0		// r5 - acumula el valor
+		mov r8, r0		// r8 - dir vectorX
+		mov r9, r1		// r9 - dir vectorY
+		mov r7, 0		// largo
+	.corr_loop2:
+
+		ldrh r6, [r8], 2
+		sub r11, r7, r4
+		mul r11, r11, r12
+		add r9, r11
+		ldrh r10, [r9]
+		mul r6, r6, r10
+		add r5, r6
+
+		adds r7, 1
+		cmp r7, r4
+		bne .corr_loop2
+
+		strh r5, [r2], 2
+
+		subs r3, 1
+		bne .corr_loop1
+
+		pop {r12}
+		pop {r11}
+		pop {r10}
+		pop {r9}
+		pop {r8}
+		pop {r7}
+		pop {r6}
+		pop {r5}
+		pop {r4}
+		bx lr
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@ void corr(int16_t *vectorX, int16_t * vectorY, int16_t * vectorCorr, uint32_t longitud);
+@
+@ Parametros recibidos:
+@   r0: * vectorX
+@   r1: * vectorY
+@	r2: * vectorCorr
+@	r3: longitud
+@
+@ Valor de retorno:
+@   Ninguno
+@
+.thumb_func
+	asm_corr_conSIMD:
+		push {r4}
+		push {r5}
+
+
+
+		subs r3, 1
+		bne .
 
 		pop {r5}
 		pop {r4}

@@ -25,7 +25,7 @@ int main()
     
     printf("\n");
 
-    corr(vec1, vec1, vec3, longitud);
+    corr(vec1, vec2, vec3, longitud);
 
     //printf("%d ", res);
 
@@ -37,14 +37,17 @@ int main()
 
 void corr(int16_t * vectorX, int16_t * vectorY, int16_t * vectorCorr, uint32_t longitud)
 {
-    uint32_t i, largo = longitud;
+    int32_t i, largo = longitud, largoVector = longitud;
 
-    while(longitud--)
+    while(largoVector--)
     {
-        vectorCorr[longitud] = 0;
+        vectorCorr[largoVector] = 0;
 
         for(i = 0;i < largo;i++)
-            vectorCorr[longitud] += vectorX[largo]*vectorY[largo - longitud];
+        {
+            if((i - largoVector) >= 0)
+                vectorCorr[largoVector] += (vectorX[i]*vectorY[i - largoVector]);
+        }
 
     }
 
