@@ -95,6 +95,21 @@ los periféricos?
 Los core peripherals son los periféricos ya definidos e implementados por el fabricante (ARM). A diferencia del resto de los periféricos, estos se encuentran físicamente en el nucleo (core) del procesador ya que es necesario que sean de baja latencia.
 
 13. ¿Cómo se implementan las prioridades de las interrupciones? Dé un ejemplo.
+
+Al habilitar la interrupción de alguno de los periféricos en el NVIC a esta se le debe asignar un nivel de prioridad. Se pueden configurar hasta 240 interrupciones y, dependiendo del fabricante del microcontrolador y su aplicación, entre 8 (3 bits) y 256 (8 bits) niveles de prioridad.
+
+A continuación se muestra un diagrama con los niveles de prioridad en el caso de 3 y 4 bits de prioridad (total de 8 y 16 niveles respectivamente) ordenados de forma descendente. El nivel de prioridad de las tres exceptions (Reset, NMI y Hard fault) no son configurables y siempre tienen mayor prioridad que las interrupciones ya que deben ser atendidas primero.
+
+<p align="center">
+  <img height=450 src=prioritylevels.png>
+</p>
+
+Los niveles de prioridad funcionan de la siguente forma: supongamos que se tiene una interrupción del SPI configurada con un nivel de prioridad 0x20 y otra del I2C configurada con un nivel de prioridad 0x80. El procesador se encuentra corriendo normalmente y en un determinado instante llega la interrupción del I2C por lo que el procesador consultará en el NVIC el vector de la ISR (subrutina de atención de la interrupción) correspondiente a esta interrupción y saltará del programa principal a esta dirección para ejecutarla. Ahora supongamos que mientras el procesador se encuentra atendiendo esta ISR ocurre la interrupción del SPI. En este caso, como ya se encuentra atendiendo una interupción, consultará en el NVIC los niveles de prioridad de la interrupción del I2C y del SPI y las comparará. Como el del SPI es mayor al del I2C entonces el procesador dejará de atender la ISR del I2C y pasará a ejecutar la del SPI. Cuando termine de ejecutarla, volverá a seguir ejecutando la del I2C.
+
+En el caso que la interrupción del SPI hubiese tenido un nivel de prioridad menor, el procesador primero terminaría de ejecutar la ISR del I2C y luego atendería la del SPI.
+
+Estos niveles de prioridad, llamados prioridad de grupo, contienen a su vez otro nivel de prioridad denominado sub-prioridad. Se pueden configurar varias interrupciones con el mismo nivel de prioridad de grupo pero deben tener un distinto nivel de sub-prioridad. La regla de atención de la ISR mantiene la misma lógica de ejecución: si dos interrupciones con el mismo nivel de prioridad de grupo deben ser atendidas, la que tenga el mayor nivel de sub-prioridad será ejecutada primero.
+
 14. ¿Qué es el CMSIS? ¿Qué función cumple? ¿Quién lo provee? ¿Qué ventajas aporta?
 
 El CMSIS es una interfaz de software común a todos los microprocesadores Cortex que se encuentra implementada en C. Se trata basicamente de una libreria escrita en C para que el programador pueda facilmente acceder y usar los core peripherals del microprocesador. Se trata de una capa de software que se encuentra entre la capa de middleware y el hardware.
