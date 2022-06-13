@@ -121,6 +121,11 @@ microprocesador para atender a la subrutina correspondiente? Explique con un eje
 16. ¿Cómo cambia la operación de stacking al utilizar la unidad de punto flotante?
 17. Explique las características avanzadas de atención a interrupciones: tail chaining y late
 arrival.
+
+Tail chaining: es un técnica implementada por el procesador cuando este se encuentra atendiendo una subrutina de interrupción y otra excepción del mismo o mayor nivel se dispara. En lugar de terminar de ejecutar la ISR, recuperar del stack los registros del procesador para inmediatamente volver a stackearlos y atender la ISR de la nueva interrupción lo que se hará es saltear los pasos de unstacking y stacking y atender directamente la ISR. De esta forma se pueden ahorrar ciclos de clock y atender la interrupción mucho mas rápido.
+
+Late arrival: cuando una excepción se dispara el procesador pasa a atender la subrutina de interrupción. Antes de esto, como al pasar a ejecutar cualquier función, el procesador guarda en el stack los registros del procesador para preservar su valor. Si durante este proceso se dispara una excepción de mayor prioridad que la primera, el procesador terminará el stacking y en lugar de pasar a ejecutar la subrutina de la primera interrupción, pasará a ejecutar la de mayor nivel de priorirdad.
+
 18. ¿Qué es el systick? ¿Por qué puede afirmarse que su implementación favorece la
 portabilidad de los sistemas operativos embebidos?
 
