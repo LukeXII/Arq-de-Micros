@@ -143,6 +143,10 @@ de las excepciones? Dé un ejemplo.
 22. ¿Para qué se suele utilizar la excepción SVC? Expliquelo dentro de un marco de un
 sistema operativo embebido.
 
+La excepción SVC es un mecanismo que permite a los procesos de un OS que tienen acceso no privilegiado acceder a recursos de hardware que si lo tienen mediante un servicio propio del OS, funcionando como una API. Esto vuelve al sistema mas seguro ya que evita que dichas tareas obtengan acceso no autorizado a hardware critico.
+
+Además el SVC permite a las tareas ser desarrolladas independientemente del OS porque estas no necesitan tener las direcciones exactas de los servicios del OS. Las tareas solo tienen que conocer el numero de servicio del SVC y los parametros requeridos por los servicios del OS. La programación a nivel hardware es manejada directamente por los drivers de los dispositivos.
+
 ---
 
 # ISA
