@@ -68,6 +68,13 @@ El hecho de contar con un stack pointer para el Kernel del OS (MSP) y otro para 
 como se conmuta de uno al otro. Describa un ejemplo en el que se pasa del modo
 privilegiado a no priviligiado y nuevamente a privilegiado.
 7. ¿Qué se entiende por modelo de registros ortogonal? Dé un ejemplo.
+
+Un modelo de registros ortogonal implica que todos los registros de propósito general (R0 a R15) pueden ser argumento de todas las instrucciones del set, dicho de otra forma, todas las instrucciones pueden operar sobre todos los registros del procesador. Por ejemplo las siguientes instrucciones son todas validas:
+
+* LDR R0, [R1]
+* STR R10, [PC]
+* LDRH LR, [R5]
+
 8. ¿Qué ventajas presenta el uso de instrucciones de ejecución condicional (IT)? Dé un
 ejemplo.
 9. Describa brevemente las excepciones más prioritarias (reset, NMI, Hardfault).
