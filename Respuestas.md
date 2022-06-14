@@ -105,6 +105,13 @@ Ahora utilizando instrucciones IT seria:
 Como se puede ver, el código no tiene saltos condicionales si no que todas sus instrucciones pasarán por el procesador, aunque una de las dos no se ejecutará.
 
 9. Describa brevemente las excepciones más prioritarias (reset, NMI, Hardfault).
+
+Reset: es la excepción con mayor nivel de prioridad de todo el NVIC y su handler se ejecutará siempre primero luego de detectado el reset por mas que otras interrupciones se disparen.
+
+NMI: una Non-Maskable Interrupt es una excepción de hardware que no se puede enmascarar, es decir, que no se puede deshabilitar. A diferencia de una interrupción común, el procesador no puede ignorar una NMI en ningún momento. Generalmente se las asocia a las fallas de hardware como un Brownout reset (caída de la tensión de alimentación).
+
+Hardfault: al igual que NMI, esta excepción no puede ser deshabilitada y es disparada cuando el programa intenta realizar alguna acción prohibida como ser escribir o leer posiciones de memoria para las que no se tiene permiso, acceder a periféricos deshabilitados, dividir por cero, etc.
+
 10. Describa las funciones principales de la pila. ¿Cómo resuelve la arquitectura el llamado
 a funciones y su retorno?
 
