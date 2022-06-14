@@ -17,7 +17,7 @@ void corr(int16_t *vectorX, int16_t * vectorY, int16_t * vectorCorr, uint32_t lo
 int main()
 {
     int16_t vec1[] = {1, 2, 3, 4, 5, 6, 7};
-    int16_t vec2[] = {0, 6, 2, 1, 1, 4, 8}, vec3[7];
+    int16_t vec2[] = {2, 3, 4, 1, 1, 4, 8}, vec3[7];
     uint32_t longitud = 7;
 
     for(unsigned int i = 0;i < longitud;i++)

@@ -460,14 +460,57 @@
 @
 .thumb_func
 	asm_corr_conSIMD:
-		push {r4}
 		push {r5}
+		push {r6}
+		push {r7}
+		push {r8}
+		push {r9}
+		push {r10}
+		push {r11}
+		push {r12}
 
+		mov r11, 0
+		mov r12, 0x0000ffff
 
+	.corr_loop4:
+
+		mov r8, 2
+		mul r8, r8, r11
+		add r8, r8, r0
+
+		mov r5, 0		// r5 - acumula el valor
+		mov r9, r1		// r9 - dir vectorY[0]
+		mov r7, r3
+
+	.corr_loop3:
+
+		ldr r6, [r9], 4
+		ldr r10, [r8], 4
+
+		cmp r7, 1
+		bne .corr_skip1
+		and r6, r6, r12
+		and r10, r10, r12
+		add r7, 1
+	.corr_skip1:
+
+		smlad r5, r6, r10, r5
+
+		subs r7, 2
+		bne .corr_loop3
+
+		strh r5, [r2], 2
 
 		subs r3, 1
-		bne .
+		add r11, 1
+		bne .corr_loop4
 
+		pop {r12}
+		pop {r11}
+		pop {r10}
+		pop {r9}
+		pop {r8}
+		pop {r7}
+		pop {r6}
 		pop {r5}
-		pop {r4}
 		bx lr

@@ -133,7 +133,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
     int16_t vec1[] = {1, 2, 3, 4, 5, 6, 7};
-    int16_t vec2[] = {0, 6, 2, 1, 1, 4, 8}, vec3[7];
+    int16_t vec2[] = {2, 3, 4, 1, 1, 4, 8}, vec3[7];
 	uint32_t longitud = 7;
   /* USER CODE END 1 */
 
@@ -161,7 +161,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   PrivilegiosSVC ();
 
-  asm_corr(vec1, vec2, vec3, longitud);
+  asm_corr_conSIMD(vec1, vec2, vec3, longitud);
 
   /* USER CODE END 2 */
 
