@@ -77,6 +77,33 @@ Un modelo de registros ortogonal implica que todos los registros de propósito g
 
 8. ¿Qué ventajas presenta el uso de instrucciones de ejecución condicional (IT)? Dé un
 ejemplo.
+
+El uso de instrucciones de ejecución condicional (If-Then) trae la ventaja de que, si bien algunas instrucciones se ejecutarán y otras, todas pasarán por el procesador evitando la aparición de saltos condicionales, lo que hace que se arruine la continuidad del pipeline.
+
+El hecho de que no se deba realizar un salto en el programa y el pipeline deba vaciar ciertas etapas hace que su eficiencia aumente, ya que evita perder ciclos de clock haciendo esto.
+
+A modo de ejemplo, el siguiente programa representaría una condición if-else:
+
+        LDR R0, #10
+        SUBS R0, 1
+        BEQ .skip1
+        STR R1, [R3], 2
+        BA  .skip2
+    .skip1:
+        STR R1, [R2]
+    .skip2:
+        ...
+
+Ahora utilizando instrucciones IT seria:
+
+    LDR R0, #10
+    SUBS R0, 1
+    ITE EQ
+    STREQ R1, [R2]
+    STRNE R1, [R3], 2
+
+Como se puede ver, el código no tiene saltos condicionales si no que todas sus instrucciones pasarán por el procesador, aunque una de las dos no se ejecutará.
+
 9. Describa brevemente las excepciones más prioritarias (reset, NMI, Hardfault).
 10. Describa las funciones principales de la pila. ¿Cómo resuelve la arquitectura el llamado
 a funciones y su retorno?
@@ -181,9 +208,8 @@ Ejemplo de operación con aritmética saturada:
 
 Suponiendo que el intervalo válido de valores es de 0 a 255 (8 bits) y el resultado de todas las operaciones esta saturado.
 
-* 50 x (7 - 1) = 255
-
-* 50 x 6 - 50 x 1 = 205
+    50 x (7 - 1) = 255
+    50 x 6 - 50 x 1 = 205
 
 En este caso se observa que la propiedad de la distributividad falla en la aritmética saturada.
 
