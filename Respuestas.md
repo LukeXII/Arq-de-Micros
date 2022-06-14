@@ -160,6 +160,18 @@ Consta de una parte ya definida por ARM y otra dependiente del fabricante del ch
 15. Cuando ocurre una interrupción, asumiendo que está habilitada ¿Cómo opera el
 microprocesador para atender a la subrutina correspondiente? Explique con un ejemplo.
 16. ¿Cómo cambia la operación de stacking al utilizar la unidad de punto flotante?
+
+Al utilizar la FPU (unidad de punto flotante) el proceso de stacking de los registros del procesador se denomina lazy stacking y basicamente esto consiste, en el contexto de una interrupción, en no poner en el stack los registros de la FPU si no son utilizados en el programa ni en la ISR. Este método tiene la ventaja de hacer decrementar el tiempo que se tarda en atender una interrupción.
+
+La FPU cuenta con 16 registros (S0 a S15) para realizar las operaciones de punto flotante. Al llegar una interrupción el lazy stacking puede actuar de X formas, dependiendo si la FPU es utilizada en el programa o en la ISR:
+
+* Si ni en el programa ni en la ISR se utiliza la FPU, el stacking de los registros no se realiza.
+* Si en el programa se utiliza la FPU pero no en la ISR, tampoco se realiza el stacking ya que los registros no serán modificados.
+* Si en el programa no se utiliza la FPU pero si en la ISR, el stacking no se realiza ya que no es necesario preservar los valores.
+* Si la FPU es utilizada en el programa y en la ISR, el stacking de los registros no se hace hasta que se deba hacer uso de la FPU.
+
+La detección del uso de la FPU y el stacking son realizados automáticamente por el hardware, lo cual libera al programador de tener que implementar este proceso.
+
 17. Explique las características avanzadas de atención a interrupciones: tail chaining y late
 arrival.
 
