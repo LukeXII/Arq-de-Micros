@@ -193,6 +193,11 @@ solapamientos de las regiones? ¿Qué ocurre con las zonas de memoria no cubiert
 regiones definidas?
 21. ¿Para qué se suele utilizar la excepción PendSV? ¿Cómo se relaciona su uso con el resto
 de las excepciones? Dé un ejemplo.
+
+La excepción PendSV tiene especial importancia en el funcionamiento de sistemas operativos ya que es utilizada para hacer el cambio de contexto entre tareas. En el caso que se este atendiendo una interrupción y el Systick o una instrucción SVC generen una interrupción para el cambio de contexto, esta excepción retrasa este pedido hasta que el resto de las ISR pendientes terminen de ejecutarse. Esto es para que no se retrase la ejecución de la ISR.
+
+Una vez que se debe cambiar de contexto, el OS dispara la excepción PendSV y hace esto dentro del handler. Para esto, como todas las ISR deben terminar de ejecutarse antes de atender la de PendSV, esta debe estar configurada como la excepción de mas baja prioridad.
+
 22. ¿Para qué se suele utilizar la excepción SVC? Expliquelo dentro de un marco de un
 sistema operativo embebido.
 
