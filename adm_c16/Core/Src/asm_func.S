@@ -399,13 +399,7 @@
 @
 .thumb_func
 	asm_corr:
-		push {r5}
-		push {r6}
-		push {r7}
-		push {r8}
-		push {r9}
-		push {r10}
-		push {r11}
+		push {r5-r11}
 
 		mov r11, 0
 
@@ -435,13 +429,7 @@
 		add r11, 1
 		bne .corr_loop1
 
-		pop {r11}
-		pop {r10}
-		pop {r9}
-		pop {r8}
-		pop {r7}
-		pop {r6}
-		pop {r5}
+		pop {r5-r11}
 		bx lr
 
 
@@ -460,14 +448,7 @@
 @
 .thumb_func
 	asm_corr_conSIMD:
-		push {r5}
-		push {r6}
-		push {r7}
-		push {r8}
-		push {r9}
-		push {r10}
-		push {r11}
-		push {r12}
+		push {r5-r12}
 
 		mov r11, 0
 		mov r12, 0x0000ffff
@@ -492,6 +473,7 @@
 		and r6, r6, r12
 		and r10, r10, r12
 		add r7, 1
+
 	.corr_skip1:
 
 		smlad r5, r6, r10, r5
@@ -505,12 +487,5 @@
 		add r11, 1
 		bne .corr_loop4
 
-		pop {r12}
-		pop {r11}
-		pop {r10}
-		pop {r9}
-		pop {r8}
-		pop {r7}
-		pop {r6}
-		pop {r5}
+		pop {r5-r12}
 		bx lr

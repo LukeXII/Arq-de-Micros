@@ -27,8 +27,6 @@ int main()
 
     corr(vec1, vec2, vec3, longitud);
 
-    //printf("%d ", res);
-
     for(unsigned int i = 0;i < longitud;i++)
         printf("%d ", vec3[i]);
 

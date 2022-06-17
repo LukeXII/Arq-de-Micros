@@ -159,6 +159,14 @@ Consta de una parte ya definida por ARM y otra dependiente del fabricante del ch
 
 15. Cuando ocurre una interrupción, asumiendo que está habilitada ¿Cómo opera el
 microprocesador para atender a la subrutina correspondiente? Explique con un ejemplo.
+
+Cuando se dispara una interrupción que está habilitada, el procesador pasa a atender la ISR mediante la siguiente secuencia:
+
+* Se guardan en el stack los registros del procesador y, si este se encontraba en modo Thread (ejecutando un OS), se guardará también la dirección del PSP de la tarea que se estaba ejecutando. Si no, guardará la dirección del MSP.
+* Se busca del NVIC el vector de la excepción (dirección de comienzo del handler de la interrupción). Esto puede ocurrir en paralelo a la operación de stack, para reducir la latencia de atención de la subrutina.
+* Se buscan las instrucciones del handler para su ejecución.
+* Se actualizan los registros del NVIC y el core, como el estado pendiente de atención de la excepción y el estado activo. También se actualizan el PSR, LR, PC y el SP (dependiendo de cual se estaba usando, se actualiza el MSP o el PSP).
+
 16. ¿Cómo cambia la operación de stacking al utilizar la unidad de punto flotante?
 
 Al utilizar la FPU (unidad de punto flotante) el proceso de stacking de los registros del procesador se denomina lazy stacking y basicamente esto consiste, en el contexto de una interrupción, en no poner en el stack los registros de la FPU si no son utilizados en el programa ni en la ISR. Este método tiene la ventaja de hacer decrementar el tiempo que se tarda en atender una interrupción.
